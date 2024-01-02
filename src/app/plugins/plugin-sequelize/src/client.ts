@@ -6,6 +6,8 @@ export interface SequelizeConfig extends SequelizeOptions {
   username: string;
   password: string;
   host: string;
+  force?: boolean;
+  alter?: boolean;
 }
 
 @Injectable({
@@ -20,16 +22,17 @@ export default class Client {
       return;
     }
 
+    const { force = false, alter = false, ...restConfig } = config;
+
     this.sequelize = new Sequelize({
-      ...config,
-      // logging: console.log,
+      ...restConfig,
       logging: false,
       repositoryMode: true,
     });
 
     await this.sequelize.sync({
-      // force: true,
-      // alter: true,
+      force,
+      alter,
     });
   }
 

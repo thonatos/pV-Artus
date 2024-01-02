@@ -5,6 +5,6 @@ export default async function checkAuth(
   next: Next
 ): Promise<void> {
   const { data } = ctx.output;
-  data.auth = 'pass';
+  console.log('middleware - checkAuth', data);
   await next();
 }

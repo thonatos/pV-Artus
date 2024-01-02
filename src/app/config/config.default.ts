@@ -1,14 +1,13 @@
 import path from 'path';
 import dotenv from 'dotenv';
 
-import checkRole from '../middleware/checkRole';
 import checkAuth from '../middleware/checkAuth';
 
 dotenv.config();
 
 export default {
   port: 7001,
-  middlewares: [checkRole, checkAuth],
+  middlewares: [checkAuth],
 
   redis: {
     db: process.env.REDIS_DATABASE || 0,
@@ -26,5 +25,7 @@ export default {
     password: process.env.MYSQL_PASSWORD || 'root',
     dialect: 'mysql',
     models: [path.join(__dirname, '../model')],
+    force: Boolean(process.env.MYSQL_FORCE) || false,
+    alter: Boolean(process.env.MYSQL_ALTER) || false,
   },
 };

@@ -1,36 +1,30 @@
 import { ArtusInjectEnum, Inject } from '@artus/core';
-import { GET, POST, HTTPController } from '../plugin';
-import type { HttpRequest, HttpReponse } from '../types';
+import { GET, POST, HTTPController, Middleware } from '../plugin';
+import { HTTPContext } from '../types';
 
 @HTTPController()
-export default class UserController {
+export default class HomeController {
   @Inject(ArtusInjectEnum.Config)
   config: Record<string, any>;
 
   @GET('/')
-  async home(_req: HttpRequest, res: HttpReponse, ctx: any) {
-    res.statusCode = 200;
-    res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify(ctx));
+  async home(ctx: HTTPContext) {
+    ctx.body = 'home';
   }
 
   @GET('/get')
-  async getInfo(req: HttpRequest, res: HttpReponse) {
-    console.log(req.method);
-    res.end(
-      JSON.stringify({
-        data: 'info',
-      })
-    );
+  async getInfo(ctx: HTTPContext) {
+    ctx.body = {
+      msg: 'get.',
+    };
   }
 
+  @Middleware([])
+  @GET('/can-be-get')
   @POST('/post')
-  async postInfo(req: HttpRequest, res: HttpReponse) {
-    console.log(req.method);
-    res.end(
-      JSON.stringify({
-        data: 'info',
-      })
-    );
+  async postInfo(ctx: HTTPContext) {
+    ctx.body = {
+      msg: 'post.',
+    };
   }
 }

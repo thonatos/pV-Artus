@@ -1,4 +1,1 @@
-import type { IncomingMessage, ServerResponse } from 'http';
-
-export interface HttpRequest extends IncomingMessage {}
-export interface HttpReponse extends ServerResponse {}
+export * from './plugins/plugin-application-http/src/types';
